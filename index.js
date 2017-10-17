@@ -43,7 +43,7 @@ async function run() {
 	try {
 		search_flights.length = 0;
 
-		const query = firebase.database().ref().child('flights').child(UID).orderByKey();
+		const query = firebase.database().ref().child('flights').child(UID).orderByChild('index');
 		query.once('value', snap => {
 
 			snap.forEach(childSnap => {
@@ -132,6 +132,8 @@ async function run() {
 
 }
 
+// Run once before loop
+run();
 
 // Infinite loop
 (function loop() {
