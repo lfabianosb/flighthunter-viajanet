@@ -1,6 +1,7 @@
-// Constants
+// Puppeteer
 const puppeteer = require('puppeteer');
-const Slack = require('slack-node');
+
+// Firebase
 const firebase = require('firebase');
 const app = firebase.initializeApp({
 	apiKey: process.env.apiKey,
@@ -10,18 +11,20 @@ const app = firebase.initializeApp({
 	storageBucket: process.env.storageBucket,
 	messagingSenderId: process.env.messagingSenderId
 });
+
+// Environment
 const UID = process.env.userID;
-const WAIT_BETWEEN_REQ = process.env.WAIT_BETWEEN_REQ || 300;
-const SLACK_WEBHOOK = process.env.SLACK_WEBHOOK;
+const WAIT_BETWEEN_REQ = process.env.WAIT_BETWEEN_REQ || 1800;
+
+// User agent
 const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:55.0) Gecko/20100101 Firefox/55.0'
 
 // Flights to search
 let search_flights = [];
 
-
-// Slack webhook
-slack = new Slack();
-slack.setWebhook(SLACK_WEBHOOK);
+// Slack
+const Slack = require('slack-node');
+const slack = new Slack();
 
 
 // Format to pt_BR
@@ -39,20 +42,30 @@ function toCurrency(num) {
 
 
 async function run() {
+	let webhookFound = false;
+	search_flights.length = 0;
 
 	try {
-		search_flights.length = 0;
-
 		const query = firebase.database().ref().child('flights').child(UID).orderByChild('index');
 		query.once('value', snap => {
 
 			snap.forEach(childSnap => {
-				if (childSnap.key != 'email' && childSnap.key != 'photo') {
+				if (childSnap.key != 'email' && childSnap.key != 'photo' && childSnap.key != 'webhook') {
 					search_flights.push(childSnap);
+				} else {
+					// Set slack webhook
+					if (childSnap.key == 'webhook') {
+						console.log(`webhook=${childSnap.val()}`);
+						if (childSnap.val()) {
+							slack.setWebhook(childSnap.val());
+							webhookFound = true;
+						}
+					}
 				}
 			});
 
 		}).then(async () => {
+			console.log(`webhookFound=${webhookFound}`);
 
 			for (var i = 0; i < search_flights.length; i++) {
 				try {
@@ -61,8 +74,6 @@ async function run() {
 					const to = search_flights[i].child('to').val();
 					const start = search_flights[i].child('dtStart').val();
 					const end = search_flights[i].child('dtEnd').val();
-					const max = search_flights[i].child('maxDays').val();
-					const min = search_flights[i].child('minDays').val();
 					const adult = search_flights[i].child('adult').val();
 					const child = search_flights[i].child('child').val();
 					const price = search_flights[i].child('price').val();
@@ -72,11 +83,15 @@ async function run() {
 
 					// Open browser and page
 					const browser = await puppeteer.launch({ args: ['--no-sandbox'], headless: true });
-				   const page = await browser.newPage();
-				   page.setUserAgent(USER_AGENT);
+				  const page = await browser.newPage();
+				  page.setUserAgent(USER_AGENT);
+
+				  // Departure and return dates
+				  let dtDep = start.substring(0,2) + '-' + start.substring(3,5) + '-' + start.substring(6);
+				  let dtRet = end.substring(0,2) + '-' + end.substring(3,5) + '-' + end.substring(6);
 
 					// URL target
-					let target = `https://www.viajanet.com.br/busca/voos-resultados#/${from}/${to}/RT/${start}/${end}/-/-/-/${adult}/${child}/0/${nonStop ? 'NS' : '-'}/-/-/-`;
+					let target = `https://www.viajanet.com.br/busca/voos-resultados#/${from}/${to}/RT/${dtDep}/${dtRet}/-/-/-/${adult}/${child}/0/${nonStop ? 'NS' : '-'}/-/-/-`;
 					console.log(target);
 
 					// Goto page
@@ -100,17 +115,19 @@ async function run() {
 				   	console.log(`${prc} < ${parseFloat(price)}?`);
 
 				   	if (prc < parseFloat(price)) {
-				   		// Slack message
-				   		slack.webhook({
-	                     channel: "#general",
-	                     username: "webhookbot",
-	                     icon_emoji: ":airplane:",
-	                     text: `De ${from} para ${to} pela ${content.cia} por *R$${toCurrency(prc)}* para ${adult} adultos e ${child} crianças.\nIda em ${start} e volta em ${end}.`
-	                  }, function(err, response) {
-	                     if (err) {
-	                        console.log(`Ocorreu o seguinte erro: ${err}`);
-	                     }
-	                  });
+				   		if (webhookFound) {
+					   		// Slack message
+					   		slack.webhook({
+		                     channel: "#general",
+		                     username: "webhookbot",
+		                     icon_emoji: ":airplane:",
+		                     text: `De ${from} para ${to} pela ${content.cia} por *R$${toCurrency(prc)}* para ${adult} adultos e ${child} crianças.\nIda em ${start} e volta em ${end}.`
+		                  }, function(err, response) {
+		                     if (err) {
+		                        console.log(`Ocorreu o seguinte erro: ${err}`);
+		                     }
+		                  });
+				   		}
 				   	}
 
 					} else {
@@ -127,8 +144,8 @@ async function run() {
 		});
 
 	} catch (err) {
-        console.log(`(2) Ocorreu o seguinte erro: ${err}`);
-   }
+		console.log(`(2) Ocorreu o seguinte erro: ${err}`);
+  }
 
 }
 
