@@ -55,7 +55,6 @@ async function run() {
 				} else {
 					// Set slack webhook
 					if (childSnap.key == 'webhook') {
-						console.log(`webhook=${childSnap.val()}`);
 						if (childSnap.val()) {
 							slack.setWebhook(childSnap.val());
 							webhookFound = true;
@@ -65,7 +64,6 @@ async function run() {
 			});
 
 		}).then(async () => {
-			console.log(`webhookFound=${webhookFound}`);
 
 			for (var i = 0; i < search_flights.length; i++) {
 				try {
@@ -112,7 +110,6 @@ async function run() {
 				   if (content) {
 				   	console.log(`preco: ${content.price}, cia: ${content.cia}`);
 				   	let prc = parseFloat(content.price.substring(3).replace('.','').replace(',','.'));
-				   	console.log(`${prc} < ${parseFloat(price)}?`);
 
 				   	if (prc < parseFloat(price)) {
 				   		if (webhookFound) {
@@ -127,6 +124,8 @@ async function run() {
 		                        console.log(`Ocorreu o seguinte erro: ${err}`);
 		                     }
 		                  });
+				   		} else {
+				   			console.log('webhook not found');
 				   		}
 				   	}
 
