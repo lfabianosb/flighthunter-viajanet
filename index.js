@@ -95,8 +95,11 @@ async function run() {
 					// Goto page
 				   await page.goto(target, { timeout: 45000 });
 
-				   // Wait page load
+				   // Wait price load
 					await page.waitForSelector('div.allprice-highlighted.ng-scope span.price.ng-binding.ng-scope', { visible: true, timeout: 45000 });
+
+					// Wait price matrix load
+					await page.waitForSelector('div#matriz3x3.tabs-matriz.display-block ul li.matriz', { visible: true, timeout: 45000 });
 				   
 				   // Get content
 				   let content = await page.evaluate(() => {
