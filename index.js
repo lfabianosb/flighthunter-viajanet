@@ -105,7 +105,13 @@ async function run() {
 				   let content = await page.evaluate(() => {
 				   	return {
 				   		price: document.querySelector('div.allprice-highlighted.ng-scope span.price.ng-binding.ng-scope').textContent,
-				   		cia: document.querySelector('ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.ida li.flight.ng-scope.flight-ida label.btn-voo div.list-cias div.cia.ng-scope span.cia__name.ng-binding.ng-scope').textContent
+				   		cia: document.querySelector('ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.ida li.flight.ng-scope.flight-ida label.btn-voo div.list-cias div.cia.ng-scope span.cia__name.ng-binding.ng-scope').textContent,
+				   		idaHoraSaida: document.querySelector('div#vn-content-view.vn-content.content-view.ng-scope div.fluxo-content flight-detail ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.ida li.flight.ng-scope.flight-ida label.btn-voo p.departure strong.ng-binding').textContent,
+				      idaParadas: document.querySelector('div#vn-content-view.vn-content.content-view.ng-scope div.fluxo-content flight-detail ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.ida li.flight.ng-scope.flight-ida label.btn-voo div.time span.stops.ng-scope').textContent,
+				      idaDuracao: document.querySelector('div#vn-content-view.vn-content.content-view.ng-scope div.fluxo-content flight-detail ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.ida li.flight.ng-scope.flight-ida label.btn-voo div.time span.time.ng-binding').textContent,
+				      voltaHoraSaida: document.querySelector('div#vn-content-view.vn-content.content-view.ng-scope div.fluxo-content flight-detail ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.volta li.flight.ng-scope.flight-volta label.btn-voo p.departure strong.ng-binding').textContent,
+				      voltaParadas: document.querySelector('div#vn-content-view.vn-content.content-view.ng-scope div.fluxo-content flight-detail ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.volta li.flight.ng-scope.flight-volta label.btn-voo div.time span.stops.ng-scope').textContent,
+				      voltaDuracao: document.querySelector('div#vn-content-view.vn-content.content-view.ng-scope div.fluxo-content flight-detail ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.volta li.flight.ng-scope.flight-volta label.btn-voo div.time span.time.ng-binding').textContent
 				   	}
 				   });
 
@@ -121,7 +127,7 @@ async function run() {
 		                     channel: "#general",
 		                     username: "webhookbot",
 		                     icon_emoji: ":airplane:",
-		                     text: `De ${from} para ${to} pela ${content.cia} por *R$${toCurrency(prc)}* para ${adult} adultos e ${child} crianças.\nIda em ${start} e volta em ${end}.`
+		                     text: `De ${from} para ${to} por *R$${toCurrency(prc)}* pela ${content.cia} para ${adult} adulto(s) e ${child} criança(s).\nIda em ${start} às ${content.idaHoraSaida}, ${content.idaParadas} e ${content.idaDuracao} de duração.\nVolta em ${end} às ${content.voltaHoraSaida}, ${content.voltaParadas} e ${content.voltaDuracao} de duração.`
 		                  }, function(err, response) {
 		                     if (err) {
 		                        console.log(`Ocorreu o seguinte erro: ${err}`);
