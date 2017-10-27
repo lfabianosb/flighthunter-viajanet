@@ -76,6 +76,7 @@ async function run() {
 					const child = search_flights[i].child('child').val();
 					const price = search_flights[i].child('price').val();
 					const nonStop = search_flights[i].child('nonStop').val();
+					const roundTrip = search_flights[i].child('roundTrip').val();
 
 					console.log(`${key}, ${price}`);
 
@@ -89,7 +90,13 @@ async function run() {
 				  let dtRet = end.substring(0,2) + '-' + end.substring(3,5) + '-' + end.substring(6);
 
 					// URL target
-					let target = `https://www.viajanet.com.br/busca/voos-resultados#/${from}/${to}/RT/${dtDep}/${dtRet}/-/-/-/${adult}/${child}/0/${nonStop ? 'NS' : '-'}/-/-/-`;
+					let target;
+					if (roundTrip) {
+						target = `https://www.viajanet.com.br/busca/voos-resultados#/${from}/${to}/RT/${dtDep}/${dtRet}/-/-/-/${adult}/${child}/0/${nonStop ? 'NS' : '-'}/-/-/-`;
+					} else {
+						target = `https://www.viajanet.com.br/busca/voos-resultados#/${from}/${to}/OW/${dtDep}/-/-/${adult}/${child}/0/${nonStop ? 'NS' : '-'}/-/-/-`;
+						//https://www.viajanet.com.br/busca/voos-resultados#/REC/MAD/OW/22-07-2018/-/-/2/2/0/NS/-/-/-
+					}
 					console.log(target);
 
 					// Goto page
