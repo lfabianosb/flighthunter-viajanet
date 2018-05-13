@@ -107,8 +107,8 @@ async function run() {
 					// Wait price load
 					//await page.waitForSelector('div.allprice-highlighted.ng-scope span.price.ng-binding.ng-scope', { visible: true, timeout: 45000 });
 
-					console.log('2. waitFor 20s');
-					await page.waitFor(20000);
+					console.log('2. waitFor 35s');
+					await page.waitFor(35000);
 					// Wait price matrix load
 					//await page.waitForSelector('div#matriz3x3 ul li.price.ng-scope.best-price', { visible: true, timeout: 45000 });
 
@@ -116,58 +116,58 @@ async function run() {
 				  	let content;
 				  	if (roundTrip) {
 				   		content = await page.evaluate(() => {
-					   	return {
-					   		price: document.querySelector('div.allprice-highlighted.ng-scope span.price.ng-binding.ng-scope').textContent,
-					   		cia: document.querySelector('ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.ida li.flight.ng-scope.flight-ida label.btn-voo div.list-cias div.cia.ng-scope span.cia__name.ng-binding.ng-scope').textContent,
-					   		idaHoraSaida: document.querySelector('div#vn-content-view.vn-content.content-view.ng-scope div.fluxo-content flight-detail ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.ida li.flight.ng-scope.flight-ida label.btn-voo p.departure strong.ng-binding').textContent,
-					    	idaParadas: document.querySelector('div#vn-content-view.vn-content.content-view.ng-scope div.fluxo-content flight-detail ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.ida li.flight.ng-scope.flight-ida label.btn-voo div.time span.stops.ng-scope').textContent,
-					    	idaDuracao: document.querySelector('div#vn-content-view.vn-content.content-view.ng-scope div.fluxo-content flight-detail ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.ida li.flight.ng-scope.flight-ida label.btn-voo div.time span.time.ng-binding').textContent,
-					    	voltaHoraSaida: document.querySelector('div#vn-content-view.vn-content.content-view.ng-scope div.fluxo-content flight-detail ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.volta li.flight.ng-scope.flight-volta label.btn-voo p.departure strong.ng-binding').textContent,
-					    	voltaParadas: document.querySelector('div#vn-content-view.vn-content.content-view.ng-scope div.fluxo-content flight-detail ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.volta li.flight.ng-scope.flight-volta label.btn-voo div.time span.stops.ng-scope').textContent,
-					    	voltaDuracao: document.querySelector('div#vn-content-view.vn-content.content-view.ng-scope div.fluxo-content flight-detail ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.volta li.flight.ng-scope.flight-volta label.btn-voo div.time span.time.ng-binding').textContent
-					   	}
-				    });
-				  } else {
-				  	content = await page.evaluate(() => {
-					   	return {
-					   		price: document.querySelector('div.allprice-highlighted.ng-scope span.price.ng-binding.ng-scope').textContent,
-					   		cia: document.querySelector('ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.ida li.flight.ng-scope.flight-ida label.btn-voo div.list-cias div.cia.ng-scope span.cia__name.ng-binding.ng-scope').textContent,
-					   		idaHoraSaida: document.querySelector('div#vn-content-view.vn-content.content-view.ng-scope div.fluxo-content flight-detail ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.ida li.flight.ng-scope.flight-ida label.btn-voo p.departure strong.ng-binding').textContent,
-					    	idaParadas: document.querySelector('div#vn-content-view.vn-content.content-view.ng-scope div.fluxo-content flight-detail ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.ida li.flight.ng-scope.flight-ida label.btn-voo div.time span.stops.ng-scope').textContent,
-					    	idaDuracao: document.querySelector('div#vn-content-view.vn-content.content-view.ng-scope div.fluxo-content flight-detail ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.ida li.flight.ng-scope.flight-ida label.btn-voo div.time span.time.ng-binding').textContent
-					   	}
-				    });
-				  }
+						   	return {
+						   		price: document.querySelector('div.allprice-highlighted.ng-scope span.price.ng-binding.ng-scope').textContent,
+						   		cia: document.querySelector('ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.ida li.flight.ng-scope.flight-ida label.btn-voo div.list-cias div.cia.ng-scope span.cia__name.ng-binding.ng-scope').textContent,
+						   		idaHoraSaida: document.querySelector('div#vn-content-view.vn-content.content-view.ng-scope div.fluxo-content flight-detail ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.ida li.flight.ng-scope.flight-ida label.btn-voo p.departure strong.ng-binding').textContent,
+						    	idaParadas: document.querySelector('div#vn-content-view.vn-content.content-view.ng-scope div.fluxo-content flight-detail ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.ida li.flight.ng-scope.flight-ida label.btn-voo div.time span.stops.ng-scope').textContent,
+						    	idaDuracao: document.querySelector('div#vn-content-view.vn-content.content-view.ng-scope div.fluxo-content flight-detail ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.ida li.flight.ng-scope.flight-ida label.btn-voo div.time span.time.ng-binding').textContent,
+						    	voltaHoraSaida: document.querySelector('div#vn-content-view.vn-content.content-view.ng-scope div.fluxo-content flight-detail ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.volta li.flight.ng-scope.flight-volta label.btn-voo p.departure strong.ng-binding').textContent,
+						    	voltaParadas: document.querySelector('div#vn-content-view.vn-content.content-view.ng-scope div.fluxo-content flight-detail ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.volta li.flight.ng-scope.flight-volta label.btn-voo div.time span.stops.ng-scope').textContent,
+						    	voltaDuracao: document.querySelector('div#vn-content-view.vn-content.content-view.ng-scope div.fluxo-content flight-detail ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.volta li.flight.ng-scope.flight-volta label.btn-voo div.time span.time.ng-binding').textContent
+						   	}
+				    	});
+				  	} else {
+					  	content = await page.evaluate(() => {
+						   	return {
+						   		price: document.querySelector('div.allprice-highlighted.ng-scope span.price.ng-binding.ng-scope').textContent,
+						   		cia: document.querySelector('ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.ida li.flight.ng-scope.flight-ida label.btn-voo div.list-cias div.cia.ng-scope span.cia__name.ng-binding.ng-scope').textContent,
+						   		idaHoraSaida: document.querySelector('div#vn-content-view.vn-content.content-view.ng-scope div.fluxo-content flight-detail ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.ida li.flight.ng-scope.flight-ida label.btn-voo p.departure strong.ng-binding').textContent,
+						    	idaParadas: document.querySelector('div#vn-content-view.vn-content.content-view.ng-scope div.fluxo-content flight-detail ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.ida li.flight.ng-scope.flight-ida label.btn-voo div.time span.stops.ng-scope').textContent,
+						    	idaDuracao: document.querySelector('div#vn-content-view.vn-content.content-view.ng-scope div.fluxo-content flight-detail ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.ida li.flight.ng-scope.flight-ida label.btn-voo div.time span.time.ng-binding').textContent
+						   	}
+					    });
+					}
 
-				   // Show content
-				   if (content) {
-				   	console.log(`preco: ${content.price}, cia: ${content.cia}`);
-				   	let prc = parseFloat(content.price.substring(3).replace('.','').replace(',','.'));
+				 	// Show content
+				 	if (content) {
+						console.log(`preco: ${content.price}, cia: ${content.cia}`);
+						let prc = parseFloat(content.price.substring(3).replace('.','').replace(',','.'));
 
-				   	if (prc < parseFloat(price)) {
-				   		if (webhookFound) {
-				   			let msg;
-				   			if (roundTrip) {
-				   				msg = `De ${from} para ${to} por *R$${toCurrency(prc)}* pela ${content.cia} para ${adult} adulto(s) e ${child} criança(s).\nIda em ${start} às ${content.idaHoraSaida}, ${content.idaParadas} e ${content.idaDuracao} de duração.\nVolta em ${end} às ${content.voltaHoraSaida}, ${content.voltaParadas} e ${content.voltaDuracao} de duração.`;
+				   		if (prc < parseFloat(price)) {
+				   			if (webhookFound) {
+				   				let msg;
+				   				if (roundTrip) {
+				   					msg = `De ${from} para ${to} por *R$${toCurrency(prc)}* pela ${content.cia} para ${adult} adulto(s) e ${child} criança(s).\nIda em ${start} às ${content.idaHoraSaida}, ${content.idaParadas} e ${content.idaDuracao} de duração.\nVolta em ${end} às ${content.voltaHoraSaida}, ${content.voltaParadas} e ${content.voltaDuracao} de duração.`;
+					   			} else {
+					   				msg = `De ${from} para ${to} por *R$${toCurrency(prc)}* pela ${content.cia} para ${adult} adulto(s) e ${child} criança(s).\nIda em ${start} às ${content.idaHoraSaida}, ${content.idaParadas} e ${content.idaDuracao} de duração.`
+					   			}
+
+						   		// Slack message
+						   		slack.webhook({
+									channel: "#general",
+									username: "webhookbot",
+				                    icon_emoji: ":airplane:",
+				                    text: msg
+			                  	}, function(err, response) {
+		                     		if (err) {
+		                        		console.log(`Ocorreu o seguinte erro: ${err}`);
+		                     		}
+		                  		});
 				   			} else {
-				   				msg = `De ${from} para ${to} por *R$${toCurrency(prc)}* pela ${content.cia} para ${adult} adulto(s) e ${child} criança(s).\nIda em ${start} às ${content.idaHoraSaida}, ${content.idaParadas} e ${content.idaDuracao} de duração.`
+				   				console.log('webhook not found');
 				   			}
-					   		// Slack message
-					   		slack.webhook({
-		                     channel: "#general",
-		                     username: "webhookbot",
-		                     icon_emoji: ":airplane:",
-		                     text: msg
-		                  }, function(err, response) {
-		                     if (err) {
-		                        console.log(`Ocorreu o seguinte erro: ${err}`);
-		                     }
-		                  });
-				   		} else {
-				   			console.log('webhook not found');
 				   		}
-				   	}
-
 					} else {
 						console.log('nenhum resultado encontrado');
 					}
