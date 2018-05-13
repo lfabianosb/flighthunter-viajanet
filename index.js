@@ -103,14 +103,14 @@ async function run() {
 					// Goto page
 					await page.goto(target, { timeout: 45000 });
 
-					console.log('1. waitForSelector');
+					//console.log('1. waitForSelector');
 					// Wait price load
-					await page.waitForSelector('div.allprice-highlighted.ng-scope span.price.ng-binding.ng-scope', { visible: true, timeout: 45000 });
+					//await page.waitForSelector('div.allprice-highlighted.ng-scope span.price.ng-binding.ng-scope', { visible: true, timeout: 45000 });
 
-					console.log('2. waitFor 12s');
-					await page.waitFor(12000);
+					console.log('2. waitFor 20s');
+					await page.waitFor(20000);
 					// Wait price matrix load
-					// await page.waitForSelector('div#matriz3x3 ul li.price.ng-scope.best-price', { visible: true, timeout: 45000 });
+					//await page.waitForSelector('div#matriz3x3 ul li.price.ng-scope.best-price', { visible: true, timeout: 45000 });
 
 				 	// Get content
 				  	let content;
