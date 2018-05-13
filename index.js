@@ -82,11 +82,11 @@ async function run() {
 
 					// Open browser and page
 					const browser = await puppeteer.launch({ args: ['--no-sandbox'], headless: true });
-				  const page = await browser.newPage();
-				  page.setUserAgent(USER_AGENT);
+					const page = await browser.newPage();
+					page.setUserAgent(USER_AGENT);
 
-				  // Departure date
-				  let dtDep = start.substring(0,2) + '-' + start.substring(3,5) + '-' + start.substring(6);
+					// Departure date
+					let dtDep = start.substring(0,2) + '-' + start.substring(3,5) + '-' + start.substring(6);
 
 					// URL target
 					let target;
@@ -101,27 +101,27 @@ async function run() {
 					console.log(target);
 
 					// Goto page
-				   await page.goto(target, { timeout: 45000 });
+					await page.goto(target, { timeout: 45000 });
 
-				   // Wait price load
+					// Wait price load
 					await page.waitForSelector('div.allprice-highlighted.ng-scope span.price.ng-binding.ng-scope', { visible: true, timeout: 45000 });
 
 					// Wait price matrix load
 					await page.waitForSelector('div#matriz3x3 ul li.price.ng-scope.best-price', { visible: true, timeout: 45000 });
-				   
-				  // Get content
-				  let content;
-				  if (roundTrip) {
-				   	content = await page.evaluate(() => {
+
+				 	// Get content
+				  	let content;
+				  	if (roundTrip) {
+				   		content = await page.evaluate(() => {
 					   	return {
 					   		price: document.querySelector('div.allprice-highlighted.ng-scope span.price.ng-binding.ng-scope').textContent,
 					   		cia: document.querySelector('ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.ida li.flight.ng-scope.flight-ida label.btn-voo div.list-cias div.cia.ng-scope span.cia__name.ng-binding.ng-scope').textContent,
 					   		idaHoraSaida: document.querySelector('div#vn-content-view.vn-content.content-view.ng-scope div.fluxo-content flight-detail ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.ida li.flight.ng-scope.flight-ida label.btn-voo p.departure strong.ng-binding').textContent,
-					      idaParadas: document.querySelector('div#vn-content-view.vn-content.content-view.ng-scope div.fluxo-content flight-detail ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.ida li.flight.ng-scope.flight-ida label.btn-voo div.time span.stops.ng-scope').textContent,
-					      idaDuracao: document.querySelector('div#vn-content-view.vn-content.content-view.ng-scope div.fluxo-content flight-detail ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.ida li.flight.ng-scope.flight-ida label.btn-voo div.time span.time.ng-binding').textContent,
-					      voltaHoraSaida: document.querySelector('div#vn-content-view.vn-content.content-view.ng-scope div.fluxo-content flight-detail ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.volta li.flight.ng-scope.flight-volta label.btn-voo p.departure strong.ng-binding').textContent,
-					      voltaParadas: document.querySelector('div#vn-content-view.vn-content.content-view.ng-scope div.fluxo-content flight-detail ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.volta li.flight.ng-scope.flight-volta label.btn-voo div.time span.stops.ng-scope').textContent,
-					      voltaDuracao: document.querySelector('div#vn-content-view.vn-content.content-view.ng-scope div.fluxo-content flight-detail ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.volta li.flight.ng-scope.flight-volta label.btn-voo div.time span.time.ng-binding').textContent
+					    	idaParadas: document.querySelector('div#vn-content-view.vn-content.content-view.ng-scope div.fluxo-content flight-detail ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.ida li.flight.ng-scope.flight-ida label.btn-voo div.time span.stops.ng-scope').textContent,
+					    	idaDuracao: document.querySelector('div#vn-content-view.vn-content.content-view.ng-scope div.fluxo-content flight-detail ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.ida li.flight.ng-scope.flight-ida label.btn-voo div.time span.time.ng-binding').textContent,
+					    	voltaHoraSaida: document.querySelector('div#vn-content-view.vn-content.content-view.ng-scope div.fluxo-content flight-detail ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.volta li.flight.ng-scope.flight-volta label.btn-voo p.departure strong.ng-binding').textContent,
+					    	voltaParadas: document.querySelector('div#vn-content-view.vn-content.content-view.ng-scope div.fluxo-content flight-detail ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.volta li.flight.ng-scope.flight-volta label.btn-voo div.time span.stops.ng-scope').textContent,
+					    	voltaDuracao: document.querySelector('div#vn-content-view.vn-content.content-view.ng-scope div.fluxo-content flight-detail ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.volta li.flight.ng-scope.flight-volta label.btn-voo div.time span.time.ng-binding').textContent
 					   	}
 				    });
 				  } else {
@@ -130,8 +130,8 @@ async function run() {
 					   		price: document.querySelector('div.allprice-highlighted.ng-scope span.price.ng-binding.ng-scope').textContent,
 					   		cia: document.querySelector('ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.ida li.flight.ng-scope.flight-ida label.btn-voo div.list-cias div.cia.ng-scope span.cia__name.ng-binding.ng-scope').textContent,
 					   		idaHoraSaida: document.querySelector('div#vn-content-view.vn-content.content-view.ng-scope div.fluxo-content flight-detail ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.ida li.flight.ng-scope.flight-ida label.btn-voo p.departure strong.ng-binding').textContent,
-					      idaParadas: document.querySelector('div#vn-content-view.vn-content.content-view.ng-scope div.fluxo-content flight-detail ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.ida li.flight.ng-scope.flight-ida label.btn-voo div.time span.stops.ng-scope').textContent,
-					      idaDuracao: document.querySelector('div#vn-content-view.vn-content.content-view.ng-scope div.fluxo-content flight-detail ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.ida li.flight.ng-scope.flight-ida label.btn-voo div.time span.time.ng-binding').textContent
+					    	idaParadas: document.querySelector('div#vn-content-view.vn-content.content-view.ng-scope div.fluxo-content flight-detail ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.ida li.flight.ng-scope.flight-ida label.btn-voo div.time span.stops.ng-scope').textContent,
+					    	idaDuracao: document.querySelector('div#vn-content-view.vn-content.content-view.ng-scope div.fluxo-content flight-detail ul.resultados li.resultado-fluxo.opened.ng-scope div.flights ul.ng-scope.ida li.flight.ng-scope.flight-ida label.btn-voo div.time span.time.ng-binding').textContent
 					   	}
 				    });
 				  }
